@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>YouTube Video Details</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}">
+    </head>
+    <body class="bg-dark">
+        <section id="container" class="bg-dark">
+            <div class="container py-5">
+                <div class="text-center mb-3">
+                    <h1 class="fs-2 text-light py-3">YouTube Video Details Finder</h1>
+                </div>
+                {% if video %}
+                <div class="row">
+                    <div class="col-md-8 my-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>{{video['title']}}</h3>
+                                <p><span class="fw-bold">Channel Name: </span> {{video['channelName']}}</p>
+                                <p><span class="fw-bold">Posted On: </span> {{video['postedOn']}}</p>
+                                <p><span class="fw-bold">Views: </span> {{video['viewCount']}}</p>
+                                <p><span class="fw-bold">Likes: </span> {{video['likeCount']}}</p>
+                                <p><span class="fw-bold">Duration: </span> {{video['duration']}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 my-2 p-1">
+                        <img src="{{video['thumbnail']}}" class="img-fluid">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col p-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Description:</h5>
+                                <p>{{video['description']}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col p-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Tags Used:</h5>
+                                <div class="d-flex flex-wrap">
+                                    {% for tag in video['tags'] %}
+                                        <p class="bg-secondary rounded-pill m-1 p-2 text-light">{{tag}}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col p-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Comments:</h5>
+                                <ul class="unstyled">
+                                {% for comment in video['comments'] %}
+                                    <li><span class="fw-bold d-block">{{comment['author']}}</span>
+                                        <span class="d-block">{{comment['comment']}}</span>
+                                        <span class="d-block text-muted">{{comment['time']}}</span></li>
+                                        <ul class="unstyled">
+                                        {% for r in comment['reply'] %}
+                                            <li><span class="fw-bold d-block">{{r['author']}}</span>
+                                                <span class="d-block">{{r['comment']}}</span>
+                                                <span class="d-block text-muted">{{r['time']}}</span></li>
+                                        {% endfor %}
+                                        </ul>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-danger text-center bg-light">Invalid Video ID/URL</p>
+                {% endif %}
+            </div>
+        </section>
+        <script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
+    </body>
+</html>
